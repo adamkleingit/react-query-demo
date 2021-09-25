@@ -1,87 +1,84 @@
-import { useEffect, useState } from "react";
+import { isArray } from "lodash";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useFilter } from "./filter-store";
 
 export function useNotes() {
-  const [notes, setNotes] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   async function fetchNotes() {
-    try {
-      setIsLoading(true);
-      const res = await fetch("http://localhost:5000/notes");
-      const newNotes = await res.json();
-      setNotes(newNotes);
-      setIsLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
-  }
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+    const res = await fetch("http://localhost:5000/notes");
 
-  return {
-    notes,
-    isLoading,
-    error,
-  };
+    return res.json();
+  }
+  return useQuery("notes", fetchNotes);
+}
+
+export function useFilteredNotes() {
+  const [filter] = useFilter();
+
+  async function fetchNotesWithFilter(filter) {
+    const res = await fetch(`http://localhost:5000/notes?q=${filter}`);
+
+    return res.json();
+  }
+  return useQuery(["notes", filter], () => fetchNotesWithFilter(filter), {
+    keepPreviousData: true,
+  });
 }
 
 export function useNote(id) {
-  const [note, setNote] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const queryClient = useQueryClient();
+  const [filter] = useFilter();
 
-  async function fetchNote(noteId) {
-    try {
-      setIsLoading(true);
-      const res = await fetch(`http://localhost:5000/notes/${noteId}`);
-      const newNote = await res.json();
-      setNote(newNote);
-      setIsLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
+  async function fetchNote() {
+    const res = await fetch(`http://localhost:5000/notes/${id}`);
+
+    return res.json();
   }
-  useEffect(() => {
-    fetchNote(id);
-  }, [id]);
-  return {
-    note,
-    isLoading,
-    error,
-  };
+
+  function getPlaceholderData() {
+    const notesData = queryClient.getQueriesData("notes") || [];
+    const notes = notesData
+      .map(([_, data]) => data)
+      .filter((data) => data?.length)
+      .flatMap((data) => data);
+
+    const note = notes.find((item) => item.id.toString() === id);
+    if (!note) {
+      return;
+    }
+    return {
+      title: note.title,
+    };
+  }
+
+  return useQuery(["notes", id], fetchNote, {
+    placeholderData: getPlaceholderData(),
+  });
 }
 
 export function useCreateNote() {
-  const [note, setNote] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const queryClient = useQueryClient();
 
   async function createNote(input) {
-    try {
-      setIsLoading(true);
-      const res = await fetch("http://localhost:5000/notes", {
-        method: "POST",
-        body: JSON.stringify(input),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const newNote = await res.json();
-      setNote(newNote);
-      setIsLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
+    const res = await fetch("http://localhost:5000/notes", {
+      method: "POST",
+      body: JSON.stringify(input),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.json();
   }
-
-  return {
-    note,
-    isLoading,
-    error,
-    createNote,
-  };
+  return useMutation((input) => createNote(input), {
+    onSuccess: (newNote) => {
+      queryClient.setQueriesData("notes", (old) => {
+        if (isArray(old)) {
+          return [...old, newNote];
+        }
+        return old;
+      });
+      queryClient.invalidateQueries("notes", {
+        exact: true,
+      });
+    },
+  });
 }

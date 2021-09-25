@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { useNotes } from "./notes-queries";
 
 export default function Notes() {
-  const { notes, isLoading, error } = useNotes();
+  const { data: notes, isLoading, error } = useNotes();
 
   function renderNotes() {
-    if (isLoading || !notes) {
+    if (isLoading) {
       return "loading...";
     }
     if (error) {

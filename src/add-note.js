@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router";
 import { useCreateNote } from "./notes-queries";
 
 export default function AddNote() {
   const history = useHistory();
-  const { createNote, note, error, isLoading } = useCreateNote();
+  const { mutateAsync: createNote, error, isLoading } = useCreateNote();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   async function onSubmit(e) {
     e.preventDefault();
-    createNote({ title, body });
-  }
-  useEffect(() => {
-    if (note) {
-      history.push(`/notes/${note.id}`);
+    try {
+      const newNote = await createNote({ title, body });
+
+      history.push(`/notes/${newNote.id}`);
+    } catch (err) {
+      console.error(err);
     }
-  }, [note]);
+  }
 
   return (
     <form onSubmit={onSubmit}>

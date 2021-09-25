@@ -2644,6 +2644,13 @@ babel-plugin-polyfill-regenerator@^0.2.2:
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.2"
 
+babel-plugin-reusable@1.0.0-alpha.8:
+  version "1.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/babel-plugin-reusable/-/babel-plugin-reusable-1.0.0-alpha.8.tgz#8606fb39dc3f1a26194a1646ab20445d0a5577b5"
+  integrity sha512-ZA6nE84eX+VT/T3Qym79jBTgRuPfYB3yREs+5jnIyY4RX56+ubQ5Mk0jFdd2rjFV6Zut7EjS13a3t+CXAeCzlg==
+  dependencies:
+    "@babel/helper-module-imports" "^7.0.0"
+
 babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
@@ -9916,6 +9923,14 @@ retry@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/retry/-/retry-0.12.0.tgz#1b42a6266a21f07421d1b0b54b7dc167b01c013b"
   integrity sha1-G0KmJmoh8HQh0bC1S33BZ7AcATs=
+
+reusable@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/reusable/-/reusable-1.0.1.tgz#d02e0f162724612cc9ac5a9797b047cd3f885c98"
+  integrity sha512-dTLwg8ma7QKM2PxpU0VWO7wmIhEy6qBS2d2Nd7IX8As4WOpjXHgVFQtv+TeF/IVYjZWYwM1gskqbH3pECLtm2A==
+  dependencies:
+    "@babel/helper-module-imports" "^7.0.0"
+    babel-plugin-reusable "1.0.0-alpha.8"
 
 reusify@^1.0.4:
   version "1.0.4"
