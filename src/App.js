@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import Sidebar from "./sidebar";
 import AddNote from "./add-note";
 import Note from "./note";
-import Notes from "./Notes";
+import Notes from "./notes";
 
 const queryClient = new QueryClient();
 
