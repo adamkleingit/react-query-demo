@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useNotes } from "./notes";
+import { useNotes } from "./notes-queries";
 
 export default function Sidebar() {
   const { notes, isLoading, error } = useNotes();
@@ -20,13 +20,13 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar">
-      {renderNotes()}
       <NavLink exact className="sidenote" to="/">
         All notes
       </NavLink>
       <NavLink exact className="sidenote" to="/add">
         Add note
       </NavLink>
+      {renderNotes()}
     </div>
   );
 }

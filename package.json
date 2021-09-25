@@ -8,6 +8,7 @@
   ],
   "main": "src/index.js",
   "dependencies": {
+    "json-server": "^0.16.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-query": "3.24.4",
@@ -21,6 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "server": "json-server db.json --watch --port 5000 --delay 1000",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

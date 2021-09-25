@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useNote } from "./notes";
+import { useNote } from "./notes-queries";
 
 export default function Note() {
   const { noteId } = useParams();

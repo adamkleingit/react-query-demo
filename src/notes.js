@@ -1,55 +1,23 @@
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useNotes } from "./notes-queries";
 
-export function useNotes() {
-  const [notes, setNotes] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(
-      "https://my-json-server.typicode.com/adamkleingit/react-query-fake-server/notes"
-    )
-      .then((res) => res.json())
-      .then((newNotes) => {
-        setNotes(newNotes);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setIsLoading(false);
-      });
-  }, []);
+export default function Notes() {
+  const { notes, isLoading, error } = useNotes();
 
-  return {
-    notes,
-    isLoading,
-    error
-  };
-}
+  function renderNotes() {
+    if (isLoading || !notes) {
+      return "loading...";
+    }
+    if (error) {
+      return <div className="error">{error}</div>;
+    }
+    return notes.map((note) => (
+      <Link key={note.id} className="nodeitem" to={`/notes/${note.id}`}>
+        <h3>{note.title}</h3>
+        <p>{note.body.slice(0, 10)}...</p>
+      </Link>
+    ));
+  }
 
-export function useNote(id) {
-  const [note, setNote] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  useEffect(() => {
-    setIsLoading(true);
-    fetch(
-      `https://my-json-server.typicode.com/adamkleingit/react-query-fake-server/notes/${id}`
-    )
-      .then((res) => res.json())
-      .then((newNote) => {
-        setNote(newNote);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setIsLoading(false);
-      });
-  }, [id]);
-
-  return {
-    note,
-    isLoading,
-    error
-  };
+  return <div>{renderNotes()}</div>;
 }
