@@ -10,7 +10,7 @@ export default function AddNote() {
 
   async function onSubmit(e) {
     e.preventDefault();
-    createNote(title, body);
+    createNote({ title, body });
   }
   useEffect(() => {
     if (note) {

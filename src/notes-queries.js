@@ -59,12 +59,12 @@ export function useCreateNote() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function createNote(title, body) {
+  async function createNote(input) {
     try {
       setIsLoading(true);
       const res = await fetch("http://localhost:5000/notes", {
         method: "POST",
-        body: JSON.stringify({ title, body }),
+        body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
         },
