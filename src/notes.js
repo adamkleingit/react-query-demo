@@ -14,7 +14,6 @@ export default function Notes() {
     return notes.map((note) => (
       <Link key={note.id} className="nodeitem" to={`/notes/${note.id}`}>
         <h3>{note.title}</h3>
-        <p>{note.body.slice(0, 10)}...</p>
       </Link>
     ));
   }
