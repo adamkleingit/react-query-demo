@@ -19,9 +19,13 @@ export function useFilteredNotes() {
 
     return res.json();
   }
-  return useQuery(["notes", filter], () => fetchNotesWithFilter(filter), {
-    keepPreviousData: true,
-  });
+  return useQuery(
+    ["notes", "filter", filter],
+    () => fetchNotesWithFilter(filter),
+    {
+      keepPreviousData: true,
+    }
+  );
 }
 
 export function useNote(id) {
@@ -46,7 +50,7 @@ export function useNote(id) {
     return note;
   }
 
-  return useQuery(["notes", id], fetchNote, {
+  return useQuery(["notes", "id", id], fetchNote, {
     placeholderData: getPlaceholderData(),
   });
 }

@@ -33,7 +33,7 @@ export default function App() {
               </Switch>
             </main>
           </div>
-          {/* <ReactQueryDevtools  /> */}
+          <ReactQueryDevtools />
         </Router>
       </QueryClientProvider>
     </ReusableProvider>
