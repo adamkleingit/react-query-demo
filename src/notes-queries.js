@@ -42,12 +42,8 @@ export function useNote(id) {
       .flatMap((data) => data);
 
     const note = notes.find((item) => item.id.toString() === id);
-    if (!note) {
-      return;
-    }
-    return {
-      title: note.title,
-    };
+
+    return note;
   }
 
   return useQuery(["notes", id], fetchNote, {
