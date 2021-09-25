@@ -6,6 +6,7 @@ import Sidebar from "./sidebar";
 import AddNote from "./add-note";
 import Note from "./note";
 import Notes from "./notes";
+import FetchingIndicator from "./fetching-indicator";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ export default function App() {
       <Router>
         <div className="App">
           <Sidebar />
+          {/* <FetchingIndicator /> */}
           <main>
             <Switch>
               <Route exact path="/">
