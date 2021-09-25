@@ -2,9 +2,9 @@ import "./styles.css";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import Sidebar from "./Sidebar";
-import AddNote from "./AddNote";
-import Note from "./Note";
+import Sidebar from "./sidebar";
+import AddNote from "./add-note";
+import Note from "./note";
 import Notes from "./Notes";
 
 const queryClient = new QueryClient();
