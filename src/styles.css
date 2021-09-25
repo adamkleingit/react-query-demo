@@ -1,0 +1,45 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+main {
+  flex-grow: 1;
+  padding: 10px;
+}
+.sidebar {
+  flex-grow: 0;
+  flex-basis: 200px;
+  background: #dde;
+  border-right: 1px solid #bbc;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.sidenote:first-child {
+  border-top: 1px solid yellow;
+}
+.sidenote {
+  border-bottom: 1px solid yellow;
+  display: block;
+  padding: 10px;
+}
+.sidenote.active {
+  background: #bbb;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+label {
+  margin: 10px 0;
+}
+button {
+  margin-top: 10px;
+}
