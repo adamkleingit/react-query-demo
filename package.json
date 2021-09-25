@@ -17,14 +17,21 @@
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
+    "nodemon": "^2.0.13",
     "typescript": "4.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "server": "json-server db.json --watch --port 5000 --delay 1000",
+    "server": "./node_modules/.bin/nodemon server.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./server.js",
+      "./db.json"
+    ]
   },
   "browserslist": [
     ">0.2%",

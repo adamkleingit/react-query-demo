@@ -1,2 +1,5 @@
 # react-query-demo
-Created with CodeSandbox
+`$ yarn start`  
+`$ yarn server`
+
+Open [localhost:3000](http://localhost:3000)
