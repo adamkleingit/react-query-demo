@@ -6,9 +6,12 @@ export function useNotes() {
   async function fetchNotes() {
     const res = await fetch("http://localhost:5000/notes");
 
-    return res.json();
+    return (await res.json()).map((note) => ({
+      id: note.id,
+      title: note.title,
+    }));
   }
-  return useQuery("notes", fetchNotes);
+  return useQuery(["notes", "list"], fetchNotes);
 }
 
 export function useFilteredNotes() {
@@ -17,10 +20,13 @@ export function useFilteredNotes() {
   async function fetchNotesWithFilter(filter) {
     const res = await fetch(`http://localhost:5000/notes?q=${filter}`);
 
-    return res.json();
+    return (await res.json()).map((note) => ({
+      id: note.id,
+      title: note.title,
+    }));
   }
   return useQuery(
-    ["notes", "filter", filter],
+    ["notes", "list", filter],
     () => fetchNotesWithFilter(filter),
     {
       keepPreviousData: true,
@@ -30,7 +36,6 @@ export function useFilteredNotes() {
 
 export function useNote(id) {
   const queryClient = useQueryClient();
-  const [filter] = useFilter();
 
   async function fetchNote() {
     const res = await fetch(`http://localhost:5000/notes/${id}`);
@@ -39,15 +44,12 @@ export function useNote(id) {
   }
 
   function getPlaceholderData() {
-    const notesData = queryClient.getQueriesData("notes") || [];
-    const notes = notesData
-      .map(([_, data]) => data)
-      .filter((data) => data?.length)
-      .flatMap((data) => data);
-
-    const note = notes.find((item) => item.id.toString() === id);
-
-    return note;
+    return queryClient
+      .getQueriesData(["notes", "list"])
+      ?.map(([_, data]) => data)
+      ?.filter((data) => data?.length)
+      ?.flatMap((data) => data)
+      ?.find((item) => item.id.toString() === id);
   }
 
   return useQuery(["notes", "id", id], fetchNote, {
@@ -70,15 +72,12 @@ export function useCreateNote() {
   }
   return useMutation((input) => createNote(input), {
     onSuccess: (newNote) => {
-      queryClient.setQueriesData("notes", (old) => {
-        if (isArray(old)) {
+      queryClient.setQueriesData(["notes", "list"], (old) => {
+        if (old) {
           return [...old, newNote];
         }
-        return old;
       });
-      queryClient.invalidateQueries("notes", {
-        exact: true,
-      });
+      queryClient.invalidateQueries(["notes", "list"]);
     },
   });
 }
