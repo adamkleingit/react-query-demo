@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export function useNotes() {
   const [notes, setNotes] = useState(null);
@@ -7,8 +8,9 @@ export function useNotes() {
   async function fetchNotes() {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:5000/notes");
-      const newNotes = await res.json();
+
+      const newNotes = (await axios.get("http://localhost:5000/notes")).data;
+
       setNotes(newNotes);
       setIsLoading(false);
     } catch (err) {
@@ -35,8 +37,8 @@ export function useNote(id) {
   async function fetchNote(noteId) {
     try {
       setIsLoading(true);
-      const res = await fetch(`http://localhost:5000/notes/${noteId}`);
-      const newNote = await res.json();
+      const newNote = (await axios.get(`http://localhost:5000/notes/${noteId}`))
+        .data;
       setNote(newNote);
       setIsLoading(false);
     } catch (err) {
@@ -55,23 +57,16 @@ export function useNote(id) {
 }
 
 export function useCreateNote() {
-  const [note, setNote] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function createNote(input) {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:5000/notes", {
-        method: "POST",
-        body: JSON.stringify(input),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const newNote = await res.json();
-      setNote(newNote);
+      const newNote = (await axios.post("http://localhost:5000/notes", input))
+        .data;
       setIsLoading(false);
+      return newNote;
     } catch (err) {
       setError(err.message);
       setIsLoading(false);
@@ -79,7 +74,6 @@ export function useCreateNote() {
   }
 
   return {
-    note,
     isLoading,
     error,
     createNote,

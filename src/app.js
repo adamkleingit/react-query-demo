@@ -1,5 +1,10 @@
 import "./styles.css";
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  BrowserRouter as Router,
+  NavLink,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Sidebar from "./sidebar";
@@ -15,6 +20,10 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <Router>
         <div className="App">
+          <NavLink exact className="add-note" to="/add">
+            +
+          </NavLink>
+
           <Sidebar />
           {/* <FetchingIndicator /> */}
           <main>

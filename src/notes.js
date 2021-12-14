@@ -9,7 +9,7 @@ export default function Notes() {
       return "loading...";
     }
     if (error) {
-      return <div className="error">{error}</div>;
+      return <div className="error">Error fetching notes</div>;
     }
     return notes.map((note) => (
       <Link key={note.id} className="nodeitem" to={`/notes/${note.id}`}>

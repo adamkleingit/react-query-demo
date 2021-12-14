@@ -4,19 +4,15 @@ import { useCreateNote } from "./notes-queries";
 
 export default function AddNote() {
   const history = useHistory();
-  const { createNote, note, error, isLoading } = useCreateNote();
+  const { createNote, error, isLoading } = useCreateNote();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   async function onSubmit(e) {
     e.preventDefault();
-    createNote({ title, body });
+    const newNote = await createNote({ title, body });
+    history.push(`/notes/${newNote.id}`);
   }
-  useEffect(() => {
-    if (note) {
-      history.push(`/notes/${note.id}`);
-    }
-  }, [note]);
 
   return (
     <form onSubmit={onSubmit}>
