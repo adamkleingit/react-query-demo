@@ -10,13 +10,8 @@ export default function AddNote() {
 
   async function onSubmit(e) {
     e.preventDefault();
-    try {
-      const newNote = await createNote({ title, body });
-
-      history.push(`/notes/${newNote.id}`);
-    } catch (err) {
-      console.error(err);
-    }
+    const newNote = await createNote({ title, body });
+    history.push(`/notes/${newNote.id}`);
   }
 
   return (

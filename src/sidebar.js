@@ -31,9 +31,6 @@ export default function Sidebar() {
       <NavLink exact className="sidenote" to="/">
         All notes
       </NavLink>
-      <NavLink exact className="sidenote" to="/add">
-        Add note
-      </NavLink>
       {renderNotes()}
     </div>
   );

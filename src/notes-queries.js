@@ -1,15 +1,12 @@
 import { isArray } from "lodash";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useFilter } from "./filter-store";
+import axios from "axios";
 
 export function useNotes() {
   async function fetchNotes() {
-    const res = await fetch("http://localhost:5000/notes");
-
-    return (await res.json()).map((note) => ({
-      id: note.id,
-      title: note.title,
-    }));
+    return (await axios.get("http://localhost:5000/notes")).data;
   }
   return useQuery(["notes", "list"], fetchNotes);
 }
@@ -38,9 +35,7 @@ export function useNote(id) {
   const queryClient = useQueryClient();
 
   async function fetchNote() {
-    const res = await fetch(`http://localhost:5000/notes/${id}`);
-
-    return res.json();
+    return (await axios.get(`http://localhost:5000/notes/${id}`)).data;
   }
 
   function getPlaceholderData() {
@@ -61,14 +56,7 @@ export function useCreateNote() {
   const queryClient = useQueryClient();
 
   async function createNote(input) {
-    const res = await fetch("http://localhost:5000/notes", {
-      method: "POST",
-      body: JSON.stringify(input),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return res.json();
+    return (await axios.post("http://localhost:5000/notes", input)).data;
   }
   return useMutation((input) => createNote(input), {
     onSuccess: (newNote) => {

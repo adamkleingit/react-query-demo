@@ -8,7 +8,7 @@ export default function Note() {
     return "loading... ";
   }
   if (error) {
-    return error;
+    return <div className="error">Error fetching note</div>;
   }
   return (
     <div>
